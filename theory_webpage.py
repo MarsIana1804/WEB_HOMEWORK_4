@@ -1,6 +1,7 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import urllib.parse
 import pathlib
+import mimetypes
 
 
 class HttpHandler(BaseHTTPRequestHandler):
@@ -22,6 +23,16 @@ class HttpHandler(BaseHTTPRequestHandler):
         self.end_headers()
         with open(filename, 'rb') as fd:
             self.wfile.write(fd.read())
+    def send_static(self):
+        self.send_response(200)
+        mt = mimetypes.guess_type(self.path)
+        if mt:
+            self.send_header("Content-type", mt[0])
+        else:
+            self.send_header("Content-type", 'text/plain')
+        self.end_headers()
+        with open(f'.{self.path}', 'rb') as file:
+            self.wfile.write(file.read())
 
 
 def run(server_class=HTTPServer, handler_class=HttpHandler):
