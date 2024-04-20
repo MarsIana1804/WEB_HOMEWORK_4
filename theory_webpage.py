@@ -1,15 +1,7 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import urllib.parse
-"""if pr_url.path == '/':
-    self.send_html_file('index.html')
-elif pr_url.path == '/contact':
-    self.send_html_file('contact.html')
-else:
-    if pathlib.Path().joinpath(pr_url.path[1:]).exists():
-        self.send_static()
-    else:
-        self.send_html_file('error.html', 404)
-"""
+import pathlib
+
 
 class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
